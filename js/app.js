@@ -25,33 +25,24 @@ $(document).ready(function(){
                $("#tweet-controls").css("display", "none");
                $(".tweet-compose").height(19);
            };
-
+            /*     change box height for #stream tweets input boxes                           */
         });
 
-        $(".tweet-compose").focus(function() {
+        $(".reply > .tweet-compose").on("focus", function() {
             // $(this).parent().next().show;
-           $(this).height(93);
+           $(".reply > .tweet-compose").height(93);
         });
 
-        $(" .tweet-compose").focusout(function(){
+        $(".reply > .tweet-compose").on("focusout", this, function(){
 
             var tweet = $(".tweet-compose").val().length;
 
 
             if( tweet <= 0) {
 
-                $(".tweet-compose").height(19);}
+                $(" .reply > .tweet-compose", this).height(19);}
         });
 
-        // behaviors affected by tweet text entered
-            var tweet = $("#tweet-content > .tweet-compose").val().length;
-            // console.log(tweet);
-            if (tweet <= 140) {
-                $("#tweet-submit").removeAttr("disabled", false);
-            }
-             else {
-                $("#tweet-submit").attr("disabled", true);
-            }
 
 
         /*   counter for characters changes to red if count is less than 10    */
@@ -66,11 +57,12 @@ $(document).ready(function(){
              else {
                  $("#char-count").css("color","black");
              }
-            // disable tweet button if tweet is too long
+
+            /*   disable tweet button if tweet is over 140 or has 0 characters  */
 
              var tweet = $("#tweet-content > .tweet-compose").val().length;
              // console.log(tweet);
-             if (tweet <= 140) {
+             if (tweet <= 140 && tweet > 0) {
                  $("#tweet-submit").removeAttr("disabled", false);
              }
              else {
@@ -79,7 +71,10 @@ $(document).ready(function(){
 
          });
 
-          //  add new tweet section  ####################################
+          /*        add new tweet section       */
+
+
+
         $("#tweet-submit").click(function (){
             var tweettext = $(".tweet-compose").val();
             var newtweet = $("#stream .tweet ").first().clone();
@@ -97,22 +92,36 @@ $(document).ready(function(){
 
         //   hide the reply and stats sections of a tweet
 
-        $("#stream").on("click", '.tweet',  function() {  //  use a second parameter in the on() function to specify the context
-            $(".reply", this).slideToggle();              //  the first selector is the parent of .tweet class.
+        $("#stream").on("click", '.tweet',  function(event) {  //  use a second parameter in the on() function to specify the context  the first selector is the parent of .tweet class.
+           var editorbox = $(event.target).hasClass("tweet-compose")
+            if (editorbox == false ) {       //  .tweet-compose
+
+            $(".reply", this).slideToggle();
             $(".stats", this).slideToggle();
+            }
+
+//            if ($(event.target).hasClass(".tweet-compose")) {
+//                  $(".reply", this).show();                             //
+//                  $(".stats", this).show();
+//           }
+
         });
-            // make tweet tools appear
+
+
+        
+            /*     make tweet tools appear/ disappear      */
 
        $("#stream").on("mouseenter", '.tweet', function() {
            // alert("hi");
-            $(".tweet-actions", this).show();          ///css("display", "block");
+            $(".tweet-actions", this).show();          
 
        });
         $("#stream").on("mouseleave", '.tweet', function() {
-        // alert("hi");
-            $(".tweet-actions", this).hide();          ///css("display", "block");
+        
+            $(".tweet-actions", this).hide();          
 
         });
+
 
 
 

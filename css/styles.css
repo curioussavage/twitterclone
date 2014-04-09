@@ -166,6 +166,8 @@ body {
 		color: #333;
 		margin: 10px 0;
 		padding-left: 42px;
+        
+        word-wrap:break-word;
 	}
 
 	.tweet-actions {
